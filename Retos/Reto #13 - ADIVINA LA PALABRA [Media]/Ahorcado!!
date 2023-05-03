@@ -1,0 +1,46 @@
+import random
+
+words = ['zanahoria', 'comida', 'televisor', 'computadora', 'repugante', 'silencio', 'apretar', 'correr', 'cocina', 'cuadrupedo', 'almorzar', 'sirena', 'alimento', 'automovil', 'telefono', 'leon', 'nevera', 'zanahoria']
+
+secret_word = random.choice(words)
+secret_word_find = secret_word
+for x in range(len(secret_word)//2):
+    azar = random.randint(0, len(secret_word)//2)
+    secret_word_find = secret_word_find.replace(secret_word_find[azar], '_')
+
+intentos_disponibles = 5
+
+print('Este es mi juego de adivinanzas, como el famoso ¡Ahorcado!.\nPosees:', intentos_disponibles, 'intentos disponibles para adivinar la palabra oculta. Si cometes un error, se te descontara 1')
+
+
+while intentos_disponibles != 0 and secret_word_find != secret_word:
+
+    print('La palabra a adivinar es:', secret_word_find, '\n')
+    eleccion = input('Introduzca una letra: ')
+
+    if eleccion.lower() in secret_word:
+        aciertos = []
+        for i, x in enumerate(secret_word):
+            if x == eleccion.lower():
+                aciertos.append(i)
+                secret_word_find = list(secret_word_find)
+                if secret_word_find[i] == '_':
+                    secret_word_find[i] = x
+                    secret_word_find = ''.join(secret_word_find) 
+                    if len(aciertos) == 1:
+                        print('Has acertado. "'+eleccion+'" si esta presente en la palabra a adivinar')
+
+                else:
+                    print('Ninguna de las letras ocultas coincide con "'+eleccion+'"')
+                    intentos_disponibles -= 1
+                    print('Te restan', intentos_disponibles, 'intentos disponibles')
+                    secret_word_find = ''.join(secret_word_find)
+    else:
+        print('Letra incorrecta')
+        intentos_disponibles -= 1
+        print('Te restan', intentos_disponibles, 'intentos disponibles')
+
+if intentos_disponibles == 0:
+    print('Lo siento, has perdido. La palabra correcta es:', secret_word)
+else:
+    print('Genial, ¡Has ganado!. La palabra secreta si es', secret_word)
